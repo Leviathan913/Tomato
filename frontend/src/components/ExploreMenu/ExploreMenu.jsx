@@ -1,11 +1,13 @@
 import React from "react";
 import "./ExploreMenu.css";
 import { menu_list } from "../../assets/assets.js";
+import Title from "../Title/Title.jsx";
 
 const ExploreMenu = ({ category, setCategory }) => {
   return (
     <div className="explore-menu" id="explore-menu">
-      <h1>Explore our menu</h1>
+      <Title text1={"EXPLORE"} text2={"MENU"} />
+      {/* <h1>Explore our menu</h1> */}
       <p className="explore-menu-test">
         Choose from a diverse menu featuring a delectable array of dishes. Our
         mission is to satisfy your cravings and elevate your dinning experience,
