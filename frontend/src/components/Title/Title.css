@@ -1,30 +1,30 @@
 .title-container {
   display: inline-flex;
-  gap: 0.5rem; /* Equivalent to gap-2 */
+  gap: 0.5rem;
   align-items: center;
-  margin-bottom: 0.75rem; /* Equivalent to mb-3 */
+  margin-bottom: 0.75rem;
 }
 
 .title-text {
   font-size: 30px;
-  color: #6b7280; /* Equivalent to text-gray-500 */
+  color: #6b7280;
 }
 
 .title-highlight {
   font-size: 30px;
-  color: #374151; /* Equivalent to text-gray-700 */
-  font-weight: 500; /* Equivalent to font-medium */
+  color: #374151;
+  font-weight: 500;
 }
 
 .title-line {
-  width: 2rem; /* Equivalent to w-8 */
-  height: 1px; /* Equivalent to h-[1px] */
-  background-color: #374151; /* Equivalent to bg-gray-700 */
+  width: 2rem;
+  height: 1px;
+  background-color: #374151;
 }
 
 @media (min-width: 640px) {
   .title-line {
-    width: 3rem; /* Equivalent to sm:w-12 */
-    height: 2px; /* Equivalent to sm:h-[2px] */
+    width: 3rem;
+    height: 2px;
   }
 }
