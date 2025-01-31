@@ -3,7 +3,9 @@
 }
 .food-display h2 {
   font-size: max(2vw, 24px);
-  font-weight: 600;
+  font-family: "Prata", serif;
+  line-height: 1.625;
+  color: #414141;
 }
 .food-display-list {
   display: grid;
