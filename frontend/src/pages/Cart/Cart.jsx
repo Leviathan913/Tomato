@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./Cart.css";
 import { StoreContext } from "../../context/StoreContext";
 import { useNavigate } from "react-router-dom";
+import Title from "../../components/Title/Title";
 
 const Cart = () => {
   const { cartItems, food_list, removeFromCart, getTotalCartAmount } =
@@ -44,7 +45,7 @@ const Cart = () => {
       </div>
       <div className="cart-bottom">
         <div className="cart-total">
-          <h2>Cart Totals</h2>
+          <Title text1={"CART"} text2={"TOTAL"} />
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
