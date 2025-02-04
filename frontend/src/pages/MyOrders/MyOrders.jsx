@@ -1,50 +1,80 @@
-import React,{useContext,useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./MyOrders.css";
 import { StoreContext } from "../../context/StoreContext";
-import { assets } from "../../assets/assets";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
+const API_URL = 'http://localhost:8080/api';
+
 const MyOrders = () => {
-  
-  const {url,token} = useContext(StoreContext);
+  const { token } = useContext(StoreContext);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const fetchOrders = async () => {
-    const response = await axios.post(url+"/api/order/userorders",{},{headers:{token}});
-    setData(response.data.data);
+    if (token) {
+      try {
+        const response = await axios.get(`${API_URL}/order/list`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrders();
+  }, [token]);
+
+  const trackOrder = (orderId) => {
+    navigate(`/order/${orderId}`);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-    useEffect(() => {
-        if (token){
-            fetchOrders();
-        }
-    }, [token]);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
- return (
-  <div className="my-orders">
-    <h2>My Orders</h2>
-    <div className="container">
-        {data.map((order,index) => {
-            return (
-                <div key = {index} className="my-orders-order">
-                    <img src={assets.parcel_icon} alt="" />
-                    <p>{order.items.map((item,index)=>{
-                        if(index === order.items.length-1){
-                            return item.name+" x "+item.quantity;
-                        }
-                        else{
-                            return item.name+" x "+item.quantity+", ";
-                        }
-                    })}</p>
-                    <p>${order.amount}.00</p>
-                    <p>Items: {order.items.length}</p>
-                    <p><span>&#x25cf;</span> <b>{order.status}</b></p>
-                    <button>Track Order</button>
-                </div>
-            )
+  return (
+    <div className="my-orders">
+      <h2>My Orders</h2>
+      <div className="container">
+        {data.map((order, index) => {
+          return (
+            <div key={index} className="my-orders-order">
+              <img src={`${API_URL}/images/parcel_icon.png`} alt="Parcel" />
+              <p>
+                {order.items.map((item, idx) => {
+                  if (idx === order.items.length - 1) {
+                    return `${item.food.name} x ${item.quantity}`;
+                  } else {
+                    return `${item.food.name} x ${item.quantity}, `;
+                  }
+                })}
+              </p>
+              <p>${order.amount}</p>
+              <p>Items: {order.items.length}</p>
+              <p>
+                <span>&#x25cf;</span> <b>{order.status}</b>
+              </p>
+              <button onClick={() => trackOrder(order.id)}>Track Order</button>
+            </div>
+          );
         })}
+      </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
 export default MyOrders;

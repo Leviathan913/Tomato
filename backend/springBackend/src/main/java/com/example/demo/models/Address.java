@@ -1,17 +1,43 @@
 package com.example.demo.models;
 
-public class Address {
+import jakarta.persistence.*;
+import java.io.Serializable;
 
+@Entity // Indicates this is a JPA entity
+@Table(name = "addresses") // Maps the entity to the "addresses" table in PostgreSQL
+public class Address implements Serializable {
+    @Id // Marks this field as the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the ID
+    private Long id;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String firstName;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String lastName;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String street;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String city;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String state;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String zipCode;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String country;
+
+    @Column(nullable = false) // Ensures the column cannot be null
     private String phone;
 
-    public Address(){}
+    // Default constructor
+    public Address() {}
+
+    // Parameterized constructor
     public Address(String firstName, String lastName, String street, String city, String state, String zipCode, String country, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,6 +47,15 @@ public class Address {
         this.zipCode = zipCode;
         this.country = country;
         this.phone = phone;
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

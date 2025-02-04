@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
-
     @Autowired
     private OrderService orderService;
 
@@ -26,7 +25,7 @@ public class OrderController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyOrder(@RequestParam("success") boolean success, @RequestParam("orderId") String orderId) {
+    public ResponseEntity<String> verifyOrder(@RequestParam("success") boolean success, @RequestParam("orderId") Long orderId) {
         return orderService.verifyOrder(success, orderId);
     }
 }

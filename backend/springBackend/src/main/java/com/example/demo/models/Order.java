@@ -1,36 +1,61 @@
 package com.example.demo.models;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-
+import jakarta.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-@Document(collection = "orders")
-public class Order {
+@Entity // Indicates this is a JPA entity
+@Table(name = "orders") // Maps the entity to the "orders" table in PostgreSQL
+public class Order implements Serializable {
+    @Id // Marks this field as the primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the ID
+    private Long id;
 
-    @Id
-    private String id;
+    @ManyToOne(fetch = FetchType.LAZY) // Establishes a many-to-one relationship with User
+    @JoinColumn(name = "user_id", nullable = false) // Links the user to this order
+    private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // Establishes a one-to-many relationship with Food
+    @JoinColumn(name = "order_id") // Links the food items to this order
     private List<Food> items;
-    private Double amount;
-    private String status;
-    private Address address;
-    public Order(){}
 
-    public Order(List<Food> items, Double amount, String status, RabbitConnectionDetails.Address address) {
+    @Column(nullable = false, precision = 10) // Ensures the column stores decimal values with precision
+    private Double amount;
+
+    @Column(nullable = false) // Ensures the column cannot be null
+    private String status;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // Establishes a one-to-one relationship with Address
+    @JoinColumn(name = "address_id") // Links the address to this order
+    private Address address;
+
+    // Default constructor
+    public Order() {}
+
+    // Parameterized constructor
+    public Order(User user, List<Food> items, Double amount, String status, Address address) {
+        this.user = user;
         this.items = items;
         this.amount = amount;
         this.status = status;
         this.address = address;
     }
 
-    public String getId() {
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<Food> getItems() {
@@ -57,11 +82,11 @@ public class Order {
         this.status = status;
     }
 
-    public RabbitConnectionDetails.Address getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(RabbitConnectionDetails.Address address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 }

@@ -5,18 +5,31 @@ import FoodItem from "../FoodItem/FoodItem";
 import Title from "../Title/Title";
 
 const FoodDisplay = ({ category }) => {
-  const { food_list } = useContext(StoreContext);
+  const { foodList, loading, error } = useContext(StoreContext);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="food-display" id="food-display">
       <Title text1={"BEST"} text2={"CUISINE"} />
-      {/* <h2>Top dishes near you</h2> */}
+      <p className="food-display-test">
+        Choose from a diverse menu featuring a delectable array of dishes. Our
+        mission is to satisfy your cravings and elevate your dining experience,
+        one delicious meal at a time.
+      </p>
       <div className="food-display-list">
-        {food_list.map((item, index) => {
+        {foodList.map((item, index) => {
           if (category === "All" || category === item.category) {
             return (
               <FoodItem
                 key={index}
-                id={item._id}
+                id={item.id}
                 name={item.name}
                 description={item.description}
                 price={item.price}

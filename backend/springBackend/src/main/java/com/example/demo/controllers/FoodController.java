@@ -12,7 +12,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/food")
 public class FoodController {
-
     @Autowired
     private FoodService foodService;
 
@@ -30,8 +29,8 @@ public class FoodController {
         return foodService.listFood();
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteFood(@RequestParam("id") String id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFood(@PathVariable Long id) {
         return foodService.deleteFood(id);
     }
 }
