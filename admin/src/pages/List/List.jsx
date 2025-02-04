@@ -1,41 +1,55 @@
-import React, { useEffect, useState } from 'react'
-import './List.css'
-import { useSearchParams } from 'react-router-dom'
+// src/components/List.jsx
+import React, { useContext, useEffect, useState } from 'react';
+import './List.css';
+import { StoreContext } from "../../context/StoreContext";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const List = ({url}) => {
-  const [list,setList] = useState([]);
-  const fetchList = async()=>{
-    const response = await axios.get('${url}/api/food/list');
-    if(response.data.success){
-      setList(response.data.data);
-    }
-    else{
-      toast.error("Error");
-    }
-  }
+const List = () => {
+  const { foodList, setFoodList, token } = useContext(StoreContext);
+  const [list, setList] = useState([]);
 
-  const removeFood = async(foodId)=>{
-    const response = await axios.post(`${url}/api/food/delete`, {id:foodId});
-    await fetchList();
-    if(response.data.success){
-      toast.success(response.data.message);
+  const fetchList = async () => {
+    if (token) {
+      try {
+        const response = await axios.get(`${API_URL}/food/list`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setList(response.data);
+      } catch (err) {
+        toast.error("Error fetching food list");
+      }
     }
-    else{
-      toast.error("Error");
-    }
-  }
+  };
 
-  const List=()=>{
-    useEffect(()=>{
-      fetchList();
-    },[]);
-  }
+  const removeFood = async (foodId) => {
+    if (token) {
+      try {
+        const response = await axios.delete(`${API_URL}/food/delete/${foodId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.data.includes("deleted successfully")) {
+          toast.success("Food item deleted successfully!");
+          fetchList(); // Refresh the food list
+        } else {
+          toast.error("Error deleting food item");
+        }
+      } catch (error) {
+        console.error("Error deleting food item:", error);
+        toast.error("Error deleting food item");
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchList();
+  }, [token]);
+
+  const API_URL = 'http://localhost:8080/api';
 
   return (
     <div className="list add flex-col">
-      <p>All Foods List</p>
+      <h2>All Foods List</h2>
       <div className="list-table">
         <div className="list-table-format title">
           <b>Image</b>
@@ -44,19 +58,18 @@ const List = ({url}) => {
           <b>Price</b>
           <b>Action</b>
         </div>
-        {list.map((item,index)=>{
-        return(
+        {list.map((item, index) => (
           <div key={index} className="list-table-format">
-            <img src={`${url}/images/`+item.image} alt="" />
+            <img src={`${API_URL}/images/${item.image.split('/').pop()}`} alt={item.name} />
             <p>{item.name}</p>
             <p>{item.category}</p>
             <p>${item.price}</p>
-            <p onClick={()=>removeFood(item._id)} className='cursor'>X</p>
+            <p onClick={() => removeFood(item.id)} className='cursor'>X</p>
           </div>
-        )})}
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default List
+export default List;

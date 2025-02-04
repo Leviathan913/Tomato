@@ -1,3 +1,4 @@
+// src/context/StoreContext.jsx
 import { createContext, useEffect, useState } from "react";
 import axios from 'axios';
 
@@ -52,19 +53,6 @@ const StoreContextProvider = (props) => {
     }
   };
 
-  const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = foodList.find((product) => product.id === item);
-        if (itemInfo) {
-          totalAmount += itemInfo.price * cartItems[item];
-        }
-      }
-    }
-    return totalAmount;
-  };
-
   const fetchFoodList = async () => {
     try {
       const response = await axios.get(`${API_URL}/food/list`);
@@ -98,18 +86,18 @@ const StoreContextProvider = (props) => {
         password
       });
       if (response.data.startsWith("Login successful.")) {
-        const token = response.data.split('.')[1];
+        const token = response.data.split('.')[1]; // Adjust this based on your actual token format
         setToken(token);
         localStorage.setItem("token", token);
-        await loadCartData(1, token); 
+        await loadCartData(1, token); // Assuming user ID is 1 for now
         return true;
       } else {
-        setErrorMessage(response.data);
+        setError(response.data);
         return false;
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      setErrorMessage("Login failed. Please try again.");
+      setError("Login failed. Please try again.");
       return false;
     }
   };
@@ -123,15 +111,14 @@ const StoreContextProvider = (props) => {
       });
       if (response.data.startsWith("Registration successful.")) {
         alert("Registration successful. Please log in.");
-        setCurrState("Login");
         return true;
       } else {
-        setErrorMessage(response.data);
+        setError(response.data);
         return false;
       }
     } catch (error) {
       console.error("Error registering user:", error);
-      setErrorMessage("Registration failed. Please try again.");
+      setError("Registration failed. Please try again.");
       return false;
     }
   };
@@ -142,7 +129,7 @@ const StoreContextProvider = (props) => {
       const storedToken = localStorage.getItem("token");
       if (storedToken) {
         setToken(storedToken);
-        await loadCartData(1, storedToken);
+        await loadCartData(1, storedToken); // Assuming user ID is 1 for now
       }
     };
     loadData();
@@ -158,7 +145,8 @@ const StoreContextProvider = (props) => {
     token,
     setToken,
     loginUser,
-    registerUser
+    registerUser,
+    url: API_URL
   };
 
   return (
@@ -166,6 +154,19 @@ const StoreContextProvider = (props) => {
       {props.children}
     </StoreContext.Provider>
   );
+};
+
+const getTotalCartAmount = () => {
+  let totalAmount = 0;
+  for (const item in cartItems) {
+    if (cartItems[item] > 0) {
+      let itemInfo = foodList.find((product) => product.id === item);
+      if (itemInfo) {
+        totalAmount += itemInfo.price * cartItems[item];
+      }
+    }
+  }
+  return totalAmount;
 };
 
 export default StoreContextProvider;
