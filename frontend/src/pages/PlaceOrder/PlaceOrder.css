@@ -1,14 +1,21 @@
+/* src/components/PlaceOrder.css */
 .place-order {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 50px;
   margin-top: 100px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .place-order-left {
   width: 100%;
-  max-width: max(30%, 500px);
+  max-width: 40%;
 }
+
 .place-order-left input {
   margin-bottom: 15px;
   width: 100%;
@@ -16,15 +23,43 @@
   border: 1px solid #c5c5c5;
   border-radius: 4px;
   outline-color: tomato;
+  font-size: 14px;
 }
+
 .place-order-left .multi-fields {
   display: flex;
   gap: 10px;
 }
+
 .place-order-right {
   width: 100%;
-  max-width: max(40%, 500px);
+  max-width: 40%;
 }
-.place-order .cart-total button {
+
+.place-order-right .cart-total button {
   margin-top: 30px;
+  border: none;
+  padding: 12px 0;
+  border-radius: 4px;
+  background-color: #ff6347; /* Tomato color */
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.place-order-right .cart-total button:hover {
+  background-color: #e35b44; /* Darker tomato color */
+}
+
+@media (max-width: 900px) {
+  .place-order {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .place-order-left, .place-order-right {
+    max-width: 100%;
+  }
 }

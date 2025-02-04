@@ -1,20 +1,33 @@
 package com.example.demo.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import java.io.Serializable;
 
-@Document(collection = "food")
-public class Food {
-
+@Entity
+@Table(name = "food")
+public class Food implements Serializable {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String category;
+
+    @Column(nullable = false, precision = 10)
     private Double price;
+
+    @Column(nullable = true)
     private String image;
 
-    public Food(){}
+    public Food() {}
+
+
     public Food(String name, String description, String category, Double price, String image) {
         this.name = name;
         this.description = description;
@@ -23,11 +36,12 @@ public class Food {
         this.image = image;
     }
 
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

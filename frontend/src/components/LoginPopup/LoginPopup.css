@@ -1,65 +1,113 @@
 .login-popup {
-  position: absolute;
-  z-index: 1;
+  position: fixed; /* Use fixed positioning to cover the entire viewport */
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: #00000090;
-  display: grid;
-}
-.login-popup-container {
-  place-self: center;
-  width: max(23vw, 330px);
-  color: #808080;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
   display: flex;
-  flex-direction: column;
-  gap: 25px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+.login-popup-container {
+  background-color: white;
   padding: 25px 30px;
   border-radius: 8px;
-  font-size: 14px;
-  animation: fadeIn 0.5s;
+  width: max(23vw, 330px); /* Responsive width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  animation: fadeIn 0.5s ease-in-out;
 }
+
 .login-popup-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: black;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
+
 .login-popup-title img {
   width: 16px;
   cursor: pointer;
 }
+
 .login-popup-inputs {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
+
 .login-popup-inputs input {
   outline: none;
   border: 1px solid #c9c9c9;
   padding: 10px;
   border-radius: 4px;
+  font-size: 14px;
 }
+
 .login-popup-container button {
   border: none;
   padding: 10px;
   border-radius: 4px;
   color: white;
-  background-color: tomato;
+  background-color: #ff6347; /* Tomato color */
   font-size: 15px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.login-popup-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-popup-container button:hover {
+  background-color: #e35b44; /* Darker tomato color */
+}
+
 .login-popup-condition {
   display: flex;
-  align-items: start;
+  align-items: center;
   gap: 8px;
   margin-top: -15px;
+  font-size: 12px;
+  color: #555;
 }
+
 .login-popup-condition input {
-  margin-top: 5px;
+  accent-color: #ff6347; /* Tomato color for checkbox */
 }
+
+.login-popup p {
+  margin: 10px 0;
+  font-size: 12px;
+  color: #555;
+}
+
 .login-popup p span {
-  color: tomato;
+  color: #ff6347; /* Tomato color */
   font-weight: 500;
   cursor: pointer;
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-popup-error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 12px;
 }

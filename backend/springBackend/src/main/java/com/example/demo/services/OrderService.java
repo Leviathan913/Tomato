@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
-
     @Autowired
     private OrderRepository orderRepository;
 
@@ -23,9 +23,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public ResponseEntity<String> verifyOrder(boolean success, String orderId) {
-        Order order = orderRepository.findById(orderId).orElse(null);
-        if (order != null) {
+    public ResponseEntity<String> verifyOrder(boolean success, Long orderId) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
             if (success) {
                 order.setStatus("Verified");
             } else {

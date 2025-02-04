@@ -1,18 +1,35 @@
 package com.example.demo.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
-@Document(collection = "users")
-public class User {
-
+@Entity
+@Table(name = "users")
+public class User implements Serializable {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = true)
     private String token;
-    public User(){}
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
+    // Default constructor
+    public User() {}
+
+    // Parameterized constructor
     public User(String name, String email, String password, String token) {
         this.name = name;
         this.email = email;
@@ -20,11 +37,12 @@ public class User {
         this.token = token;
     }
 
-    public String getId() {
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,5 +76,13 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 }
