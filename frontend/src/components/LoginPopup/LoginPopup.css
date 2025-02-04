@@ -1,3 +1,4 @@
+/* src/components/LoginPopup.css */
 .login-popup {
   position: fixed; /* Use fixed positioning to cover the entire viewport */
   top: 0;
@@ -50,7 +51,7 @@
 
 .login-popup-container button {
   border: none;
-  padding: 10px;
+  padding: 12px 0;
   border-radius: 4px;
   color: white;
   background-color: #ff6347; /* Tomato color */
@@ -94,6 +95,13 @@
   text-decoration: underline;
 }
 
+.login-popup-error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 12px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -103,11 +111,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.login-popup-error {
-  color: red;
-  margin-top: 10px;
-  text-align: center;
-  font-size: 12px;
 }

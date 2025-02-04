@@ -1,37 +1,102 @@
-.add{
+/* src/components/Add.css */
+.add {
     width: 70%;
-    margin-left: max(5vw,25px);
+    margin-left: max(5vw, 25px);
     margin-top: 50px;
     color: #6d6d6d;
     font-size: 16px;
-}
-.add form{
-    gap: 20px;
-}
-.add-img-upload img{
-    width: 120px;
-}
-.add-product-name, .add-product-description{
-    width: max(40%, 280px);
-}
-.add-product-name input, .add-product-description textarea{
-    padding: 10px;
-}
-
-.add-category, .add-price{
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .add h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .add-form {
     display: flex;
-    gap: 20px;   
-}
-.add-category select, .add-price input{
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .add-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .add-form-group label {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .add-product-name input,
+  .add-product-description textarea {
     padding: 10px;
-    max-width: 120px;
-}
-
-.add-btn{
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline-color: tomato;
+    font-size: 14px;
+  }
+  
+  .add-category input,
+  .add-price input {
+    padding: 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline-color: tomato;
+    font-size: 14px;
+  }
+  
+  .add-img-upload input {
+    padding: 5px 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    outline-color: tomato;
+    font-size: 14px;
+  }
+  
+  .add-btn {
     max-width: 120px;
     border: none;
     padding: 10px;
-    background-color: black;
+    background-color: #ff6347; /* Tomato color */
     color: white;
     cursor: pointer;
-}
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-btn:hover {
+    background-color: #e35b44; /* Darker tomato color */
+  }
+  
+  .add-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 600px) {
+    .add {
+      width: 90%;
+      margin-left: 5%;
+    }
+  
+    .add-product-name input,
+    .add-product-description textarea,
+    .add-category input,
+    .add-price input,
+    .add-img-upload input {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .add-btn {
+      font-size: 12px;
+      padding: 10px;
+    }
+  }

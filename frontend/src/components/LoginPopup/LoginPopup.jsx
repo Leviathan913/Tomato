@@ -1,3 +1,4 @@
+// src/components/LoginPopup.jsx
 import React, { useContext } from "react";
 import "./LoginPopup.css";
 import { useState } from "react";
@@ -5,10 +6,8 @@ import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api';
-
 const LoginPopup = ({ setShowLogin }) => {
-  const { setToken } = useContext(StoreContext);
+  const { loginUser, registerUser, setToken } = useContext(StoreContext);
   const [currState, setCurrState] = useState("Login");
   const [data, setData] = useState({
     name: "",
@@ -30,14 +29,9 @@ const LoginPopup = ({ setShowLogin }) => {
     setErrorMessage("");
 
     try {
-      const response = await axios.post(`${API_URL}/user/login`, data);
-      if (response.data.startsWith("Login successful.")) {
-        const token = response.data.split('.')[1]; // Adjust this based on your actual token format
-        setToken(token);
-        localStorage.setItem("token", token);
+      const success = await loginUser(data.email, data.password);
+      if (success) {
         setShowLogin(false);
-      } else {
-        setErrorMessage(response.data);
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -53,12 +47,9 @@ const LoginPopup = ({ setShowLogin }) => {
     setErrorMessage("");
 
     try {
-      const response = await axios.post(`${API_URL}/user/register`, data);
-      if (response.data.startsWith("Registration successful.")) {
-        alert("Registration successful. Please log in.");
-        setCurrState("Login");
-      } else {
-        setErrorMessage(response.data);
+      const success = await registerUser(data.name, data.email, data.password);
+      if (success) {
+        setShowLogin(false);
       }
     } catch (error) {
       console.error("Error registering user:", error);
