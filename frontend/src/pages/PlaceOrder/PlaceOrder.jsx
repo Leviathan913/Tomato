@@ -1,4 +1,3 @@
-// src/components/PlaceOrder.jsx
 import React, { useContext, useEffect, useState } from "react";
 import "./PlaceOrder.css";
 import { StoreContext } from "../../context/StoreContext";

@@ -1,4 +1,3 @@
-// src/components/LoginPopup.jsx
 import React, { useContext } from "react";
 import "./LoginPopup.css";
 import { useState } from "react";

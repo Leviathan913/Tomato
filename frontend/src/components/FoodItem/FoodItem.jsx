@@ -1,4 +1,3 @@
-// src/components/FoodItem.jsx
 import React, { useContext } from "react";
 import "./FoodItem.css";
 import { StoreContext } from "../../context/StoreContext";

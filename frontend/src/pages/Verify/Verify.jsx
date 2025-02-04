@@ -1,4 +1,3 @@
-// src/components/Verify.jsx
 import React, { useContext, useEffect } from "react";
 import "./Verify.css";
 import { useSearchParams, useNavigate } from "react-router-dom";
